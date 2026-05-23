@@ -1,0 +1,20 @@
+{
+  "database": {
+    "path": "data/ssq_app.db"
+  },
+  "crawler": {
+    "source_type": "cwl_api",
+    "source_name": "cwl_official",
+    "source_url": "https://www.cwl.gov.cn/cwl_admin/front/cwlkj/search/kjxx/findDrawNotice",
+    "timeout_seconds": 20,
+    "issue_count": 100
+  },
+  "notifier": {
+    "enabled": false,
+    "default_channel": "console"
+  },
+  "recommendation": {
+    "daily_count": 5,
+    "candidate_pool_size": 300
+  }
+}

@@ -1,0 +1,18 @@
+services:
+  ssq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ssq-app:latest
+    working_dir: /app
+    ports:
+      - "${SSQ_WEB_PORT:-8000}:8000"
+    volumes:
+      - ./:/app
+      - ssq_data:/app/data
+      - ./logs:/app/logs
+      - ./config.json:/app/config.json:ro
+    command: ["python", "run_web.py"]
+
+volumes:
+  ssq_data:

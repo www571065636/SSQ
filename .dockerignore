@@ -1,0 +1,13 @@
+.git
+.pytest_cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv
+venv
+logs
+data/*.db
+data/*-journal
+pytest-cache-files-*
