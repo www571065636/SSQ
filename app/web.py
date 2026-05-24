@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import logging
+
 from flask import Flask, jsonify, render_template_string, request
 
 from app.bootstrap import build_container, run_job
 from app.models.dto import AnalysisSnapshotDTO, DrawResultDTO, RecommendationDTO
 from app.scheduler import SchedulerService
 from app.utils.validators import format_red_numbers
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s")
 
 
 HTML_TEMPLATE = """
@@ -443,8 +447,12 @@ def create_app(config_path: str = "config.json") -> Flask:
 
     @app.post("/api/tasks/sync-latest")
     def api_sync_latest():
-        result = run_job(container.job_repository, "sync_latest", container.sync_latest)
-        return jsonify({"status": "success", "inserted": result})
+        inserted = run_job(container.job_repository, "sync_latest", container.sync_latest)
+        latest = container.draw_repository.get_latest()
+        check_items = []
+        if latest:
+            check_items = run_job(container.job_repository, "check", lambda: container.check_service.check_issue(latest.issue_no))
+        return jsonify({"status": "success", "inserted": inserted, "checked": len(check_items)})
 
     @app.post("/api/tasks/analyze")
     def api_analyze():

@@ -6,7 +6,7 @@ services:
     image: ssq-app:latest
     working_dir: /app
     ports:
-      - "${SSQ_WEB_PORT:-8000}:8000"
+      - "${SSQ_WEB_PORT:-8100}:8100"
     volumes:
       - ./:/app
       - ssq_data:/app/data
